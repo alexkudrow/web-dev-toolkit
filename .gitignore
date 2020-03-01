@@ -1,0 +1,11 @@
+# Dependency directory
+node_modules/
+
+# Compiled files
+build/
+
+# Temporary files
+tmp/
+
+# Configs
+ftp_config.json
