@@ -86,7 +86,7 @@ loadTask('assets', './tasks/assets', {
 
 
 loadTask('zip', './tasks/zip', {
-    src: dirs.build.html + '/**/*.*',
+    src: dirs.build.html + '/**',
     dest: dirs.build.html,
 });
 
