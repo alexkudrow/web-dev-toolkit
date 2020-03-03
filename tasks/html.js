@@ -1,39 +1,44 @@
 'use strict';
 
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')({
-    pattern: '*',
-    overridePattern: false,
-    rename: {
-        'gulp-mode': 'initMode',
-    },
-});
+const modes = require('../package.json').modes;
 
-$.mode = $.initMode();
+const gulp          = require('gulp');
+const plumber       = require('gulp-plumber');
+const notify        = require('gulp-notify');
+const pug           = require('gulp-pug');
+const prettyHtml    = require('gulp-pretty-html');
+const gulpIf        = require('gulp-if');
+const mode          = require('gulp-mode')({ modes: modes });
+const revReplace    = require('gulp-rev-replace');
 
 module.exports = function(options) {
-    var current_mode = $.mode.production() ? 'production' : 'development';
+    let currentMode;
+
+    // Get current mode name
+    for (let i = 0, length = modes.length; i < length; i++) {
+        if (mode[modes[i]]()) {
+            currentMode = modes[i];
+            break;
+        }
+    }
 
     return function() {
         return gulp.src(options.src)
-            .pipe($.plumber({
-                errorHandler: $.notify.onError(function(error) {
-                    return {
-                        title:   options.taskName,
-                        message: error.message,
-                    }
-                }),
+            .pipe(plumber({
+                errorHandler: notify.onError((error) => ({
+                    title:   options.taskName,
+                    message: error.message,
+                })),
             }))
-            .pipe($.pug({
-                'pretty': true,
-                'basedir': './src',
-                'data': {
-                    'environment': current_mode,
+            .pipe(pug({
+                basedir: options.baseDir,
+                data: {
+                    'environment': currentMode,
                 },
             }))
-            .pipe($.prettyHtml())
-            .pipe($.mode.production($.revReplace({
-                manifest: gulp.src(options.tmp + '*' + options.revFile, {allowEmpty: true})
+            .pipe(prettyHtml())
+            .pipe(gulpIf(!mode.development(), revReplace({
+                manifest: gulp.src(options.revFile, { allowEmpty: true })
             })))
             .pipe(gulp.dest(options.dest));
     }

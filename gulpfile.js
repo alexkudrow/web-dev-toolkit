@@ -28,6 +28,7 @@ var dirs = {
     tmp: 'tmp',
     revFile: 'rev.json',
     ftpConfigFileName: 'ftp_config.json',
+    pugBaseDir: 'src',
 };
 
 
@@ -51,8 +52,9 @@ loadTask('clean', './tasks/clean', {
 loadTask('html', './tasks/html', {
     src: dirs.src.html,
     dest: dirs.build.html,
+    baseDir: dirs.pugBaseDir,
     tmp: dirs.tmp,
-    revFile: dirs.revFile,
+    revFile: dirs.tmp + '/*' + dirs.revFile,
 });
 
 loadTask('scripts', './tasks/scripts', {
