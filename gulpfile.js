@@ -67,7 +67,7 @@ loadTask('styles', './tasks/styles', {
     dest: dirs.build.styles,
     tmp: dirs.tmp,
     revFile: 'styles-' + dirs.revFile,
-    revImages: 'images-' + dirs.revFile,
+    revImages: dirs.tmp + '/images-' + dirs.revFile,
 });
 
 loadTask('images', './tasks/images', {

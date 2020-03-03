@@ -1,49 +1,50 @@
 'use strict';
 
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')({
-    pattern: '*',
-    overridePattern: false,
-    rename: {
-        'gulp-mode': 'initMode',
-    },
-});
+const modes = require('../package.json').modes;
 
-$.mode = $.initMode();
-
-var combine = require('stream-combiner2').obj;
+const gulp          = require('gulp');
+const plumber       = require('gulp-plumber');
+const notify        = require('gulp-notify');
+const sourcemaps    = require('gulp-sourcemaps');
+const sass          = require('gulp-sass');
+const gulpIf        = require('gulp-if');
+const mode          = require('gulp-mode')({ modes: modes });
+const postcss       = require('gulp-postcss');
+const autoprefixer  = require('autoprefixer');
+const cssnano       = require('cssnano');
+const rev           = require('gulp-rev');
+const revReplace    = require('gulp-rev-replace');
+const combine       = require('stream-combiner2').obj;
 
 module.exports = function(options) {
 
     return function() {
         return gulp.src(options.src)
-            .pipe($.plumber({
-                errorHandler: $.notify.onError(function(error) {
-                    return {
-                        title:   options.taskName,
-                        message: error.message,
-                    }
-                }),
+            .pipe(plumber({
+                errorHandler: notify.onError((error) => ({
+                    title:   options.taskName,
+                    message: error.message,
+                })),
             }))
-            .pipe($.sourcemaps.init())
-            .pipe($.sass({
+            .pipe(sourcemaps.init())
+            .pipe(sass({
                 precision: 6,
                 outputStyle: 'expanded',
             }))
-            .pipe($.mode.production(combine(
-                $.revReplace({
-                    manifest: gulp.src(options.tmp + options.revImages, {allowEmpty: true})
+            .pipe(gulpIf(!mode.development(), combine(
+                revReplace({
+                    manifest: gulp.src(options.revImages, {allowEmpty: true})
                 }),
-                $.postcss([
-                    $.autoprefixer(),
-                    $.cssnano()
+                postcss([
+                    autoprefixer(),
+                    cssnano()
                 ]),
-                $.rev()
+                rev()
             )))
-            .pipe($.sourcemaps.write('.'))
+            .pipe(sourcemaps.write('.'))
             .pipe(gulp.dest(options.dest))
-            .pipe($.mode.production(combine(
-                $.rev.manifest(options.revFile),
+            .pipe(gulpIf(!mode.development(), combine(
+                rev.manifest(options.revFile),
                 gulp.dest(options.tmp)
             )));
     }
