@@ -19,7 +19,7 @@ module.exports = function(options) {
     return function() {
         return gulp.src(options.src)
             .pipe(plumber({
-                errorHandler: notify.onError((error) => ({
+                errorHandler: notify.onError(error => ({
                     title:   options.taskName,
                     message: error.message,
                 })),

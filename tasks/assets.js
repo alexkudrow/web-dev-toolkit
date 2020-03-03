@@ -12,7 +12,7 @@ module.exports = function(options) {
                 dot: true
             })
             .pipe(plumber({
-                errorHandler: notify.onError((error) => ({
+                errorHandler: notify.onError(error => ({
                     title:   options.taskName,
                     message: error.message,
                 })),

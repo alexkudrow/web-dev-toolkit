@@ -21,7 +21,7 @@ module.exports = function(options) {
     return function() {
         return gulp.src(options.src)
             .pipe(plumber({
-                errorHandler: notify.onError((error) => ({
+                errorHandler: notify.onError(error => ({
                     title:   options.taskName,
                     message: error.message,
                 })),
@@ -33,7 +33,7 @@ module.exports = function(options) {
             }))
             .pipe(gulpIf(!mode.development(), combine(
                 revReplace({
-                    manifest: gulp.src(options.revImages, {allowEmpty: true})
+                    manifest: gulp.src(options.revImages, { allowEmpty: true })
                 }),
                 postcss([
                     autoprefixer(),
