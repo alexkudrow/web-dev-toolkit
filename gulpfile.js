@@ -4,7 +4,7 @@ var gulp = require('gulp');
 
 var dirs = {
     build: {
-        html:    'build',
+        html:    'build',                       // Changing this option requires updating .gitignore
         scripts: 'build/assets/js',
         styles:  'build/assets/css',
         images:  'build/assets/img',
@@ -25,9 +25,9 @@ var dirs = {
         assets:  'src/assets/**/*.*'
     },
     clean: 'build',
-    tmp: 'tmp',
+    tmp: 'tmp',                                 // Changing this option requires updating .gitignore
     revFile: 'rev.json',
-    ftpConfigFileName: 'ftp_config.json',
+    ftpConfigFileName: 'ftp_config.json',       // Changing this option requires updating .gitignore
     pugBaseDir: 'src',
 };
 
