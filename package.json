@@ -15,12 +15,18 @@
     "Android >= 4.4",
     "Opera >= 30"
   ],
+  "modes": [
+    "development",
+    "demonstration",
+    "production"
+  ],
   "devDependencies": {
     "autoprefixer": "^9.3.1",
     "browser-sync": "^2.26.3",
     "cssnano": "^4.1.7",
     "del": "^3.0.0",
     "gulp": "^4.0.0",
+    "gulp-if": "^3.0.0",
     "gulp-imagemin": "^5.0.3",
     "gulp-load-plugins": "^1.5.0",
     "gulp-mode": "^1.0.2",
