@@ -1,40 +1,38 @@
 'use strict';
 
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')({
-    pattern: '*',
-    overridePattern: false,
-    rename: {
-        'gulp-mode': 'initMode',
-    },
-});
+const modes = require('../package.json').modes;
 
-$.mode = $.initMode();
-
-var combine = require('stream-combiner2').obj;
+const gulp          = require('gulp');
+const plumber       = require('gulp-plumber');
+const notify        = require('gulp-notify');
+const sourcemaps    = require('gulp-sourcemaps');
+const rigger        = require('gulp-rigger');
+const gulpIf        = require('gulp-if');
+const mode          = require('gulp-mode')({ modes: modes });
+const uglify        = require('gulp-uglify');
+const rev           = require('gulp-rev');
+const combine       = require('stream-combiner2').obj;
 
 module.exports = function(options) {
 
     return function() {
         return gulp.src(options.src)
-            .pipe($.plumber({
-                errorHandler: $.notify.onError(function(error) {
-                    return {
-                        title:   options.taskName,
-                        message: error.message,
-                    }
-                }),
+            .pipe(plumber({
+                errorHandler: notify.onError((error) => ({
+                    title:   options.taskName,
+                    message: error.message,
+                })),
             }))
-            .pipe($.sourcemaps.init())
-            .pipe($.rigger())
-            .pipe($.mode.production(combine(
-                $.uglify(),
-                $.rev()
+            .pipe(sourcemaps.init())
+            .pipe(rigger())
+            .pipe(gulpIf(!mode.development(), combine(
+                uglify(),
+                rev()
             )))
-            .pipe($.sourcemaps.write('.'))
+            .pipe(sourcemaps.write('.'))
             .pipe(gulp.dest(options.dest))
-            .pipe($.mode.production(combine(
-                $.rev.manifest(options.revFile),
+            .pipe(gulpIf(!mode.development(), combine(
+                rev.manifest(options.revFile),
                 gulp.dest(options.tmp)
             )));
     }
