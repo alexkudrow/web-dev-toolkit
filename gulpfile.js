@@ -27,6 +27,7 @@ var dirs = {
     clean: 'build',
     tmp: 'tmp',
     revFile: 'rev.json',
+    ftpConfigFileName: 'ftp_config.json',
 };
 
 
@@ -111,7 +112,7 @@ gulp.task('build_zip', gulp.series(
 
 loadTask('deploy', './tasks/deploy', {
     src: dirs.build.html,
-    ftp: require('./ftp_config.json'),
+    configFileName: dirs.ftpConfigFileName,
 });
 
 
