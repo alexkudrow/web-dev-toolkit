@@ -1,10 +1,9 @@
 'use strict';
 
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')({
-    pattern: '*',
-    overridePattern: false,
-});
+const gulp      = require('gulp');
+const plumber   = require('gulp-plumber');
+const notify    = require('gulp-notify');
+const newer     = require('gulp-newer');
 
 module.exports = function(options) {
 
@@ -12,15 +11,13 @@ module.exports = function(options) {
         return gulp.src(options.src, {
                 dot: true
             })
-            .pipe($.plumber({
-                errorHandler: $.notify.onError(function(error) {
-                    return {
-                        title:   options.taskName,
-                        message: error.message,
-                    }
-                }),
+            .pipe(plumber({
+                errorHandler: notify.onError((error) => ({
+                    title:   options.taskName,
+                    message: error.message,
+                })),
             }))
-            .pipe($.newer(options.dest))
+            .pipe(newer(options.dest))
             .pipe(gulp.dest(options.dest));
     }
 
