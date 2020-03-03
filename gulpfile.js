@@ -24,8 +24,8 @@ var dirs = {
         images:  'src/img/**/*.*',
         assets:  'src/assets/**/*.*'
     },
-    clean: './build/',
-    tmp: './tmp/',
+    clean: 'build',
+    tmp: 'tmp',
     revFile: 'rev.json',
 };
 
@@ -44,7 +44,7 @@ function loadTask(taskName, path, options) {
 }
 
 loadTask('clean', './tasks/clean', {
-    dest: [dirs.clean, dirs.tmp],
+    src: [dirs.clean, dirs.tmp],
 });
 
 loadTask('html', './tasks/html', {

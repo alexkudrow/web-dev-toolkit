@@ -1,11 +1,12 @@
 'use strict';
 
-var del = require('del');
+const del = require('del');
 
 module.exports = function(options) {
+    console.log(process.argv);
 
     return function() {
-        return del(options.dest);
+        return del(options.src);
     }
 
 }
