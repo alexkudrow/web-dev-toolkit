@@ -28,7 +28,6 @@
     "gulp": "^4.0.0",
     "gulp-if": "^3.0.0",
     "gulp-imagemin": "^5.0.3",
-    "gulp-load-plugins": "^1.5.0",
     "gulp-mode": "^1.0.2",
     "gulp-newer": "^1.4.0",
     "gulp-notify": "^3.2.0",
