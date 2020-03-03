@@ -1,6 +1,6 @@
 'use strict';
 
-var browserSync = require('browser-sync').create();
+const browserSync = require('browser-sync').create();
 
 module.exports = function(options) {
 
@@ -11,7 +11,7 @@ module.exports = function(options) {
             // https: true,
         });
 
-        browserSync.watch(options.src + '/**/*.*').on('change', browserSync.reload);
+        browserSync.watch(options.src + '/**').on('change', browserSync.reload);
     }
 
 }
