@@ -14,15 +14,7 @@ const revReplace    = require('gulp-rev-replace');
 const combine       = require('stream-combiner2').obj;
 
 module.exports = function(options) {
-    let currentMode;
-
-    // Get current mode name
-    for (let i = 0, length = modes.length; i < length; i++) {
-        if (mode[modes[i]]()) {
-            currentMode = modes[i];
-            break;
-        }
-    }
+    const currentMode = modes.find(item => mode[item]());
 
     const baseHref = (process.argv.find(arg => /^--base-href/.test(arg)) || "")
         .split('=')[1];
