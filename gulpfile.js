@@ -11,14 +11,14 @@ const dirs = {
         assets:  'build'
     },
     src: {
-        html:    'src/*.pug',
+        html:    'src/html/pages/**/*.pug',
         scripts: 'src/js/common.js',
         styles:  'src/scss/common.scss',
         images:  'src/img/**/*.*',
         assets:  'src/assets/**/*.*'
     },
     watch: {
-        html:    'src/**/*.pug',
+        html:    'src/html/**/*.pug',
         scripts: 'src/js/**/*.js',
         styles:  'src/scss/**/*.scss',
         images:  'src/img/**/*.*',
@@ -28,7 +28,7 @@ const dirs = {
     tmp: 'tmp',                                 // Changing this option requires updating .gitignore
     revFile: 'rev.json',
     ftpConfigFileName: 'ftp_config.json',       // Changing this option requires updating .gitignore
-    pugBaseDir: 'src',
+    pugBaseDir: 'src/html',
 };
 
 
