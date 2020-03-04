@@ -15,7 +15,7 @@ module.exports = function(options) {
     const fileName = `${packageData.name}_${year}-${month}-${day}.zip`;
 
     return function() {
-        return gulp.src(options.src, {
+        return gulp.src(options.src + '/**', {
                 dot: true,
             })
             .pipe(zip(fileName))
