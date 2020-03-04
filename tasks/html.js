@@ -39,7 +39,7 @@ module.exports = function(options) {
                 replace(' href="/', ' href="'),
                 replace(' src="/', ' src="'),
             )))
-            .pipe(gulpIf(!!baseHref, replace("</head>", `<base href="${baseHref}"></head>`)))
+            .pipe(gulpIf(!!baseHref, replace("<head>", `<head><base href="${baseHref}">`)))
             .pipe(prettyHtml())
             .pipe(gulpIf(!mode.development(), revReplace({
                 manifest: gulp.src(options.revFile, { allowEmpty: true })
