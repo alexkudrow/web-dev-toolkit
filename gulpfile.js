@@ -12,7 +12,7 @@ const dirs = {
     },
     src: {
         html:    'src/html/pages/**/*.pug',
-        scripts: 'src/js/common.js',
+        scripts: 'src/js/scripts.js',
         styles:  'src/scss/styles.scss',
         images:  'src/img/**/*.*',
         assets:  'src/assets/**/*.*'
