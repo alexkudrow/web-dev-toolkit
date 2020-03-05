@@ -32,7 +32,7 @@ module.exports = function(options) {
             .pipe(sourcemaps.write('.'))
             .pipe(gulp.dest(options.dest))
             .pipe(gulpIf(!mode.development(), combine(
-                rev.manifest(options.revFile),
+                rev.manifest(options.revisonFileName),
                 gulp.dest(options.tmp)
             )));
     }

@@ -2,33 +2,36 @@
 
 const gulp = require('gulp');
 
-const dirs = {
-    build: {
-        html:    'build',                       // Changing this option requires updating .gitignore
-        scripts: 'build/assets/js',
-        styles:  'build/assets/css',
-        images:  'build/assets/img',
-        assets:  'build'
+const buildDir   = 'build'; // Changing this option requires updating .gitignore
+const sourcedDir = 'src';
+
+const options = {
+    dirs: {
+        tmp: 'tmp',         // Changing this option requires updating .gitignore
+        build: {
+            html:    buildDir,
+            scripts: buildDir + '/assets/js',
+            styles:  buildDir + '/assets/css',
+            images:  buildDir + '/assets/img',
+            assets:  buildDir,
+        },
+        src: {
+            html:    sourcedDir + '/html/pages/**/*.pug',
+            scripts: sourcedDir + '/js/scripts.js',
+            styles:  sourcedDir + '/scss/styles.scss',
+            images:  sourcedDir + '/img/**/*.*',
+            assets:  sourcedDir + '/assets/**/*.*',
+        },
+        watch: {
+            html:    sourcedDir + '/html/**/*.pug',
+            scripts: sourcedDir + '/js/**/*.js',
+            styles:  sourcedDir + '/scss/**/*.scss',
+            images:  sourcedDir + '/img/**/*.*',
+            assets:  sourcedDir + '/assets/**/*.*',
+        },
     },
-    src: {
-        html:    'src/html/pages/**/*.pug',
-        scripts: 'src/js/scripts.js',
-        styles:  'src/scss/styles.scss',
-        images:  'src/img/**/*.*',
-        assets:  'src/assets/**/*.*'
-    },
-    watch: {
-        html:    'src/html/**/*.pug',
-        scripts: 'src/js/**/*.js',
-        styles:  'src/scss/**/*.scss',
-        images:  'src/img/**/*.*',
-        assets:  'src/assets/**/*.*'
-    },
-    clean: 'build',
-    tmp: 'tmp',                                 // Changing this option requires updating .gitignore
-    revFile: 'rev.json',
-    ftpConfigFileName: 'ftp_config.json',       // Changing this option requires updating .gitignore
-    pugBaseDir: 'src/html',
+    revisonFileSuffix: '_rev.json',
+    ftpConfigFileName: 'ftp_config.json', // Changing this option requires updating .gitignore
 };
 
 
@@ -49,57 +52,59 @@ function lazyRequireTask(taskName, options) {
  ******************************************************************************/
 
 lazyRequireTask('clean', {
-    src: [dirs.clean, dirs.tmp],
+    src: [
+        buildDir,
+        options.dirs.tmp,
+    ],
 });
 
 lazyRequireTask('html', {
-    src: dirs.src.html,
-    dest: dirs.build.html,
-    baseDir: dirs.pugBaseDir,
-    tmp: dirs.tmp,
-    revFile: dirs.tmp + '/*' + dirs.revFile,
+    src: options.dirs.src.html,
+    dest: options.dirs.build.html,
+    tmp: options.dirs.tmp,
+    revisonFilesPath: options.dirs.tmp + '/*' + options.dirs.revisonFileSuffix,
 });
 
 lazyRequireTask('scripts', {
-    src: dirs.src.scripts,
-    dest: dirs.build.scripts,
-    tmp: dirs.tmp,
-    revFile: 'scripts-' + dirs.revFile,
+    src: options.dirs.src.scripts,
+    dest: options.dirs.build.scripts,
+    tmp: options.dirs.tmp,
+    revisonFileName: 'scripts' + options.dirs.revisonFileSuffix,
 });
 
 lazyRequireTask('styles', {
-    src: dirs.src.styles,
-    dest: dirs.build.styles,
-    tmp: dirs.tmp,
-    revFile: 'styles-' + dirs.revFile,
-    revImages: dirs.tmp + '/images-' + dirs.revFile,
+    src: options.dirs.src.styles,
+    dest: options.dirs.build.styles,
+    tmp: options.dirs.tmp,
+    revisonFileName: 'styles' + options.dirs.revisonFileSuffix,
+    revisonImagesFileName: 'images' + options.dirs.revisonFileSuffix,
 });
 
 lazyRequireTask('images', {
-    src: dirs.src.images,
-    dest: dirs.build.images,
-    tmp: dirs.tmp,
-    revFile: 'images-' + dirs.revFile,
+    src: options.dirs.src.images,
+    dest: options.dirs.build.images,
+    tmp: options.dirs.tmp,
+    revisonFileName: 'images' + options.dirs.revisonFileSuffix,
 });
 
 lazyRequireTask('assets', {
-    src: dirs.src.assets,
-    dest: dirs.build.assets,
+    src: options.dirs.src.assets,
+    dest: options.dirs.build.assets,
 });
 
 lazyRequireTask('zip', {
-    src: dirs.build.html,
-    dest: dirs.build.html,
+    src: options.dirs.build.html,
+    dest: options.dirs.build.html,
 });
 
 lazyRequireTask('deploy', {
-    src: dirs.build.html,
-    configFileName: dirs.ftpConfigFileName,
+    src: options.dirs.build.html,
+    configFileName: options.dirs.ftpConfigFileName,
 });
 
 
 lazyRequireTask('serve', {
-    src: dirs.build.html,
+    src: options.dirs.build.html,
 });
 
 
@@ -128,11 +133,11 @@ gulp.task('dev', gulp.series(
     gulp.parallel(
         'serve',
         function() {
-            gulp.watch(dirs.watch.html, gulp.series('html'));
-            gulp.watch(dirs.watch.scripts, gulp.series('scripts'));
-            gulp.watch(dirs.watch.styles, gulp.series('styles'));
-            gulp.watch(dirs.watch.images, gulp.series('images'));
-            gulp.watch(dirs.watch.assets, gulp.series('assets'));
+            gulp.watch(options.dirs.watch.html, gulp.series('html'));
+            gulp.watch(options.dirs.watch.scripts, gulp.series('scripts'));
+            gulp.watch(options.dirs.watch.styles, gulp.series('styles'));
+            gulp.watch(options.dirs.watch.images, gulp.series('images'));
+            gulp.watch(options.dirs.watch.assets, gulp.series('assets'));
         }
     )
 ));

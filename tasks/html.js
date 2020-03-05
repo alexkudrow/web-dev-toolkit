@@ -30,7 +30,6 @@ module.exports = function(options) {
                 })),
             }))
             .pipe(pug({
-                basedir: options.baseDir,
                 data: {
                     'environment': currentMode,
                 },
@@ -42,7 +41,7 @@ module.exports = function(options) {
             .pipe(gulpIf(!!baseHref, replace("<head>", `<head><base href="${baseHref}">`)))
             .pipe(prettyHtml())
             .pipe(gulpIf(!mode.development(), revReplace({
-                manifest: gulp.src(options.revFile, { allowEmpty: true })
+                manifest: gulp.src(options.revisonFilesPath, { allowEmpty: true })
             })))
             .pipe(gulp.dest(options.dest));
     }

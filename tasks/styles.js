@@ -33,7 +33,7 @@ module.exports = function(options) {
             }))
             .pipe(gulpIf(!mode.development(), combine(
                 revReplace({
-                    manifest: gulp.src(options.revImages, { allowEmpty: true })
+                    manifest: gulp.src(options.revisonImagesFileName, { allowEmpty: true })
                 }),
                 postcss([
                     autoprefixer(),
@@ -44,7 +44,7 @@ module.exports = function(options) {
             .pipe(sourcemaps.write('.'))
             .pipe(gulp.dest(options.dest))
             .pipe(gulpIf(!mode.development(), combine(
-                rev.manifest(options.revFile),
+                rev.manifest(options.revisonFileName),
                 gulp.dest(options.tmp)
             )));
     }

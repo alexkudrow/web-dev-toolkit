@@ -35,7 +35,7 @@ module.exports = function(options) {
             .pipe(gulpIf(!mode.development(), rev()))
             .pipe(gulp.dest(options.dest))
             .pipe(gulpIf(!mode.development(), combine(
-                rev.manifest(options.revFile),
+                rev.manifest(options.revisonFileName),
                 gulp.dest(options.tmp)
             )));
     }
