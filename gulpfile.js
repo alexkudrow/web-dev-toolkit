@@ -99,7 +99,7 @@ lazyRequireTask('zip', {
 
 lazyRequireTask('deploy', {
     src: options.dirs.build.html,
-    configFileName: options.dirs.ftpConfigFileName,
+    configFileName: options.ftpConfigFileName,
 });
 
 
