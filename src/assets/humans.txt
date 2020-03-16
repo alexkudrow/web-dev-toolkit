@@ -1,0 +1,18 @@
+# TEAM
+
+    <name> -- <role> -- <twitter>
+
+    <role>: <name>
+    Twitter: <twitter>
+    From: <city>, <country>
+
+# THANKS
+
+    <name>
+
+# SITE
+
+    Language: English / Russian
+    Standards: HTML5, CSS3
+    Components: Bootstrap, jQuery, HTML5 Boilerplate
+    Software: Sublime Text, Gulp
