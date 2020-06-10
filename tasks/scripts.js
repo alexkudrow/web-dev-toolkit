@@ -9,7 +9,7 @@ const sourcemaps    = require('gulp-sourcemaps');
 const rigger        = require('gulp-rigger');
 const gulpIf        = require('gulp-if');
 const mode          = require('gulp-mode')({ modes: modes });
-const uglify        = require('gulp-uglify');
+const uglify        = require('gulp-uglify-es').default;
 const rev           = require('gulp-rev');
 const combine       = require('stream-combiner2').obj;
 
